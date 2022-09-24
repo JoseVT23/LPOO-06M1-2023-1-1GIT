@@ -10,7 +10,6 @@ namespace SalesController {
 		private:
 			static List <Product^>^ productList = gcnew List<Product^>(); // Variable de clase o atributo estático
 
-		// TODO: Agregue aquí los métodos de esta clase.
 		public:
 		/* Static se usa definir miembros que se pueden invocar
 		sin necesidad de contar con una instancia de la clase. */
