@@ -12,6 +12,8 @@ namespace SalesController {
 
 		// TODO: Agregue aquí los métodos de esta clase.
 		public:
+		/* Static se usa definir miembros que se pueden invocar
+		sin necesidad de contar con una instancia de la clase. */
 			static int AddProduct(Product ^product); //Métodos estáticos o de clase
 			static int UpdateProduct(Product^ product);
 			static int DeleteProduct(int productId);
