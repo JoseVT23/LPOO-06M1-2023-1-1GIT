@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfProduct xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Product>
+    <Id>1</Id>
+    <Name>Jabón Mux</Name>
+    <Description>Jabón riquísimo, con aroma a ruda, tokosh y un poquito de lavanda.</Description>
+    <Price>5.5</Price>
+    <Stock>100</Stock>
+    <Status>65</Status>
+  </Product>
+  <Product>
+    <Id>2</Id>
+    <Name>Jabón Mongler</Name>
+    <Description>Jabón familiar de tamaño monstruoso.</Description>
+    <Price>6.3</Price>
+    <Stock>120</Stock>
+    <Status>65</Status>
+  </Product>
+</ArrayOfProduct>

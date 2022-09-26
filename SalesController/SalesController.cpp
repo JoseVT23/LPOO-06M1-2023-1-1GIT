@@ -2,8 +2,11 @@
 
 #include "SalesController.h"
 
+using namespace System::Xml::Serialization;
+using namespace System::Runtime::Serialization::Formatters::Binary;
 
 void SalesController::Controller::PersistProducts() {
+    /* //En formato de archivo de texto plano
     StreamWriter^ sw = gcnew StreamWriter("Products.txt");
     for (int i = 0; i < productList->Count; i++) {
         sw->WriteLine(productList[i]->Id + "," + productList[i]->Name + "," +
@@ -11,6 +14,18 @@ void SalesController::Controller::PersistProducts() {
             productList[i]->Stock);
     }
     sw->Close();
+    */
+    /* //En formato de archivo XML
+    XmlSerializer^ writer = gcnew XmlSerializer(productList->GetType());
+    StreamWriter^ sw = gcnew StreamWriter("Products.xml");
+    writer->Serialize(sw, productList);
+    sw->Close();
+    */
+    //En formato de archivo binario
+    Stream^ stream = File::Open("Products.bin", FileMode::Create);
+    BinaryFormatter^ bFormatter = gcnew BinaryFormatter();
+    bFormatter->Serialize(stream, productList);
+    stream->Close();
 }
 
 int SalesController::Controller::AddProduct(Product^ product)
@@ -25,6 +40,7 @@ int SalesController::Controller::UpdateProduct(Product^ product)
     for (int i = 0; i < productList->Count; i++)
         if (product->Id == productList[i]->Id) {
             productList[i] = product;
+            PersistProducts();
             return 1;
         }
     return 0;
@@ -35,6 +51,7 @@ int SalesController::Controller::DeleteProduct(int productId)
     for (int i = 0; i < productList->Count; i++)
         if (productId == productList[i]->Id) {
             productList->RemoveAt(i);
+            PersistProducts();
             return 1;
         }
     return 0;
@@ -42,6 +59,7 @@ int SalesController::Controller::DeleteProduct(int productId)
 
 void SalesController::Controller::LoadProductsData() {
     productList = gcnew List<Product^>();
+    /* //Lectura desde un archivo de texto plano
     StreamReader^ sr = gcnew StreamReader("Products.txt");
     while (!sr->EndOfStream) {
         Product^ p = gcnew Product();
@@ -56,6 +74,17 @@ void SalesController::Controller::LoadProductsData() {
         p->Status = 'A';
         productList->Add(p);
     }
+    */
+    /* //Lectura desde un XML
+    XmlSerializer^ reader = gcnew XmlSerializer(productList->GetType());
+    StreamReader^ sr = gcnew StreamReader("Products.xml");
+    productList = (List<Product^>^)reader->Deserialize(sr);
+    */
+    //Lectura desde un archivo binario
+    Stream^ sr = File::Open("Products.bin", FileMode::Open);
+    BinaryFormatter^ bFormatter = gcnew BinaryFormatter();
+    productList = (List<Product^>^)bFormatter->Deserialize(sr);
+
     sr->Close();
 }
 
