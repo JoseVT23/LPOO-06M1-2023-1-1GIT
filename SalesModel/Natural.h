@@ -11,6 +11,14 @@ using  namespace System;
 namespace SalesModel {
     public ref class Natural : public Customer {
 	public:
-		String^ Gender;
+		property String^ LastName;
+		property char Gender;
+		property String^ Birthday;
+		Natural() {};
+		Natural(int id, String^ name, String^ lastName, String^ docNumber, String^ address, String^ phoneNumber, String^ email, int customerPoints, char gender, String^ birthday) :Customer(id, name, docNumber, address, phoneNumber, email, customerPoints) {
+			LastName = lastName;
+			Gender = gender;
+			Birthday = birthday;
+		}
     };
 }

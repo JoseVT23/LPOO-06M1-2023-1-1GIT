@@ -12,8 +12,12 @@ using  namespace System;
 namespace SalesModel {
     public ref class Employee : public Person {
 	public:
-		String^ Username;
-		String^ Password;
-		double Salary;
+		property String^ LastName;
+		property String^ Username;
+		property String^ Password;
+		property double Salary;
+		property String^ Store;
+		property char Gender;
+		property String^ Birthday;
     };
 }
