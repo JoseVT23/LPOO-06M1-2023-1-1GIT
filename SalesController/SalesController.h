@@ -6,6 +6,7 @@ using namespace System::Collections::Generic;
 using namespace System::IO;
 
 namespace SalesController {
+	/* Clase Controller con las operaciones de negocio */
 	public ref class Controller
 	{
 		private:
