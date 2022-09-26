@@ -737,17 +737,19 @@ private: System::Void editarToolStripMenuItem_Click(System::Object^ sender, Syst
 	btnUpdate->Enabled = true;
 	btnDelete->Enabled = true;
 }
-	   /*
+	   
 	   void FillCmbStores() {
 		   cmbStore->Items->Clear();
-		   List <Store^>^ storeList = SalesManager::QueryAllStores();
+		   //List <Store^>^ storeList = Controller::QueryAllStores();
+		   List <String^>^ storeList = Controller::QueryAllStores();
 		   for (int i = 0; i < storeList->Count; i++) {
-			   cmbStore->Items->Add(gcnew ComboBoxItem(storeList[i]->Name, storeList[i]->Id));
+			   //cmbStore->Items->Add(gcnew ComboBoxItem(storeList[i]->Name, storeList[i]->Id));
+			   cmbStore->Items->Add(storeList[i]);
 		   }
 	   }
-	   */
+	   
 private: System::Void SalesmanForm_Load(System::Object^ sender, System::EventArgs^ e) {
-	//FillCmbStores();
+	FillCmbStores();
 	RefreshDGVSalesmen();
 }
 private: System::Void cmbStore_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {

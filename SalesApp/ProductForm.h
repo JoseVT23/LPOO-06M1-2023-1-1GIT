@@ -130,21 +130,21 @@ namespace SalesApp {
 			// nuevoProductoToolStripMenuItem
 			// 
 			this->nuevoProductoToolStripMenuItem->Name = L"nuevoProductoToolStripMenuItem";
-			this->nuevoProductoToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->nuevoProductoToolStripMenuItem->Size = System::Drawing::Size(177, 22);
 			this->nuevoProductoToolStripMenuItem->Text = L"Nuevo producto";
 			this->nuevoProductoToolStripMenuItem->Click += gcnew System::EventHandler(this, &ProductForm::nuevoProductoToolStripMenuItem_Click);
 			// 
 			// modificarProductoToolStripMenuItem
 			// 
 			this->modificarProductoToolStripMenuItem->Name = L"modificarProductoToolStripMenuItem";
-			this->modificarProductoToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->modificarProductoToolStripMenuItem->Size = System::Drawing::Size(177, 22);
 			this->modificarProductoToolStripMenuItem->Text = L"Modificar producto";
 			this->modificarProductoToolStripMenuItem->Click += gcnew System::EventHandler(this, &ProductForm::modificarProductoToolStripMenuItem_Click);
 			// 
 			// salirToolStripMenuItem
 			// 
 			this->salirToolStripMenuItem->Name = L"salirToolStripMenuItem";
-			this->salirToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->salirToolStripMenuItem->Size = System::Drawing::Size(177, 22);
 			this->salirToolStripMenuItem->Text = L"Salir";
 			// 
 			// label1
@@ -342,6 +342,7 @@ namespace SalesApp {
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"ProductForm";
 			this->Text = L"Mantenimiento de productos";
+			this->Load += gcnew System::EventHandler(this, &ProductForm::ProductForm_Load);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pbPhoto))->EndInit();
@@ -430,6 +431,9 @@ private: System::Void modificarProductoToolStripMenuItem_Click(System::Object^ s
 }
 private: System::Void btnPhoto_Click(System::Object^ sender, System::EventArgs^ e) {
 	MessageBox::Show("Pronto!");
+}
+private: System::Void ProductForm_Load(System::Object^ sender, System::EventArgs^ e) {
+	RefreshGrid();
 }
 };
 }

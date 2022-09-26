@@ -3,6 +3,7 @@
 using namespace System;
 using namespace SalesModel;
 using namespace System::Collections::Generic;
+using namespace System::IO;
 
 namespace SalesController {
 	public ref class Controller
@@ -23,6 +24,8 @@ namespace SalesController {
 			static int DeleteProduct(int productId);
 			static List <Product^>^ QueryAllProducts();
 			static Product^ QueryProductById(int productId);
+			static void PersistProducts();
+			static void LoadProductsData();
 			
 			//Métodos CRUD de Customer
 			static int AddCustomer(Customer^);
@@ -39,6 +42,7 @@ namespace SalesController {
 			static int DeleteSalesman(int salesmanId);
 			static Salesman^ QuerySalesmanById(int salesmanId);
 			static List<Salesman^>^ QueryAllSalesmen();
+			static List<String^>^ QueryAllStores();
 
 			//Métodos CRUD de StoreManager
 			static int AddStoreManager(StoreManager^);

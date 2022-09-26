@@ -1,0 +1,2 @@
+﻿1,Jabón Mux, Jabón riquísimo, 5.5, 100
+2,Jabón Mongler, Jabón familiar, 6.3, 120

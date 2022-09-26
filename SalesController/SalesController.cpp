@@ -3,9 +3,20 @@
 #include "SalesController.h"
 
 
+void SalesController::Controller::PersistProducts() {
+    StreamWriter^ sw = gcnew StreamWriter("Products.txt");
+    for (int i = 0; i < productList->Count; i++) {
+        sw->WriteLine(productList[i]->Id + "," + productList[i]->Name + "," +
+            productList[i]->Description + ","+ productList[i]->Price + ","+
+            productList[i]->Stock);
+    }
+    sw->Close();
+}
+
 int SalesController::Controller::AddProduct(Product^ product)
 {
     productList->Add(product);
+    PersistProducts();
     return 1;
 }
 
@@ -29,8 +40,28 @@ int SalesController::Controller::DeleteProduct(int productId)
     return 0;
 }
 
+void SalesController::Controller::LoadProductsData() {
+    productList = gcnew List<Product^>();
+    StreamReader^ sr = gcnew StreamReader("Products.txt");
+    while (!sr->EndOfStream) {
+        Product^ p = gcnew Product();
+        String^ line = sr->ReadLine();
+
+        array<String^>^ data = line->Split(',');
+        p->Id = Convert::ToInt32( data[0]);
+        p->Name = data[1];
+        p->Description = data[2];
+        p->Price = Convert::ToDouble(data[3]);
+        p->Stock = Int32::Parse(data[4]);
+        p->Status = 'A';
+        productList->Add(p);
+    }
+    sr->Close();
+}
+
 List<Product^>^ SalesController::Controller::QueryAllProducts()
 {
+    LoadProductsData();
     List<Product^>^ activeProductsList = gcnew List<Product^>();
     for (int i = 0; i < productList->Count; i++){
         if (productList[i]->Status == 'A') {
@@ -173,6 +204,16 @@ List<Salesman^>^ SalesController::Controller::QueryAllSalesmen()
         }
     }
     return activeSalesmanList;
+}
+
+List<String^>^ SalesController::Controller::QueryAllStores()
+{
+    List <String^>^ storeList = gcnew List<String^>();
+    StreamReader^ sr = gcnew StreamReader("Stores.txt");
+    while (!sr->EndOfStream)
+        storeList->Add(sr->ReadLine());
+    sr->Close();
+    return storeList;
 }
 
 Salesman^ SalesController::Controller::QuerySalesmanById(int salesmanId)
