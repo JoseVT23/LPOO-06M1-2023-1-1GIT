@@ -234,6 +234,7 @@ namespace SalesApp {
 			this->pbPhoto->Location = System::Drawing::Point(404, 39);
 			this->pbPhoto->Name = L"pbPhoto";
 			this->pbPhoto->Size = System::Drawing::Size(135, 137);
+			this->pbPhoto->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->pbPhoto->TabIndex = 11;
 			this->pbPhoto->TabStop = false;
 			// 
@@ -375,6 +376,11 @@ namespace SalesApp {
 		p->Price = Double::Parse(txtPrice->Text);
 		p->Stock = Int32::Parse(txtStock->Text);
 		p->Status = 'A';
+		if (pbPhoto != nullptr && pbPhoto->Image != nullptr) {
+			System::IO::MemoryStream^ ms = gcnew System::IO::MemoryStream();
+			pbPhoto->Image->Save(ms, System::Drawing::Imaging::ImageFormat::Jpeg);
+			p->Photo = ms->ToArray();
+		}
 		Controller::AddProduct(p);
 		RefreshGrid();
 		ClearControls();
@@ -388,26 +394,48 @@ private: System::Void btnUpdate_Click(System::Object^ sender, System::EventArgs^
 	p->Price = Double::Parse(txtPrice->Text);
 	p->Stock = Int32::Parse(txtStock->Text);
 	p->Status = 'A';
+	if (pbPhoto != nullptr && pbPhoto->Image != nullptr) {
+		System::IO::MemoryStream^ ms = gcnew System::IO::MemoryStream();
+		pbPhoto->Image->Save(ms, System::Drawing::Imaging::ImageFormat::Jpeg);
+		p->Photo = ms->ToArray();
+	}
 	Controller::UpdateProduct(p);
 	RefreshGrid();
 
 }
 private: System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
-	int productId = Int32::Parse(txtId->Text);
-	Controller::DeleteProduct(productId);
-	RefreshGrid();
-	ClearControls();
+	System::Windows::Forms::DialogResult dr = MessageBox::Show("¿Está seguro de eliminar?", "Confirmación", MessageBoxButtons::YesNo);
+	if (dr == System::Windows::Forms::DialogResult::Yes)
+	{
+		int productId = Int32::Parse(txtId->Text);
+		Controller::DeleteProduct(productId);
+		RefreshGrid();
+		ClearControls();
+	}
+	else if (dr == System::Windows::Forms::DialogResult::No)
+	{
+		//do something else
+	}
+
 }
 private: System::Void dgvProduct_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
 	int selectedRowIndex = dgvProduct->SelectedCells[0]->RowIndex;
 	int productId = Int32::Parse( dgvProduct->Rows[selectedRowIndex]->Cells[0]->Value->ToString());
 	Product^ p = Controller::QueryProductById(productId);
-	
+	//MessageBox::Show("Columna seleccionada:" + e->ColumnIndex);
 	txtId->Text = "" +  p->Id;
 	txtName->Text = p->Name;
 	txtDescription->Text = p->Description;
 	txtPrice->Text = "" + p->Price;
 	txtStock->Text = "" + p->Stock;
+	if (p->Photo != nullptr) {
+		System::IO::MemoryStream^ ms = gcnew System::IO::MemoryStream(p->Photo);
+		pbPhoto->Image = Image::FromStream(ms);
+	}
+	else {
+		pbPhoto->Image = nullptr;
+		pbPhoto->Invalidate();
+	}
 }
 
 	   void ClearControls() {
@@ -416,6 +444,7 @@ private: System::Void dgvProduct_CellClick(System::Object^ sender, System::Windo
 		   txtDescription->Clear();
 		   txtPrice->Clear();
 		   txtStock->Clear();
+		   pbPhoto->Image = nullptr;
 	   }
 
 private: System::Void nuevoProductoToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -430,7 +459,12 @@ private: System::Void modificarProductoToolStripMenuItem_Click(System::Object^ s
 	btnDelete->Enabled = true;
 }
 private: System::Void btnPhoto_Click(System::Object^ sender, System::EventArgs^ e) {
-	MessageBox::Show("Pronto!");
+	OpenFileDialog^ opnfd = gcnew OpenFileDialog();
+	opnfd->Filter = "Image Files (*.jpg;*.jpeg;)|*.jpg;*.jpeg;";
+	if (opnfd->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+	{
+		pbPhoto->Image = gcnew Bitmap(opnfd->FileName);
+	}
 }
 private: System::Void ProductForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	RefreshGrid();

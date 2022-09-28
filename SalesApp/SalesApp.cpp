@@ -6,6 +6,7 @@ using namespace SalesModel;
 using namespace System::Collections::Generic;
 using namespace System::Windows::Forms;
 
+[STAThreadAttribute]
 int main(array<System::String ^> ^args){
     Application::EnableVisualStyles();
     Application::SetCompatibleTextRenderingDefault(false);

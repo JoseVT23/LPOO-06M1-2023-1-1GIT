@@ -138,6 +138,9 @@
     <ClInclude Include="ProductForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="ProductSearchForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SalesMainForm.h">
       <FileType>CppForm</FileType>
@@ -158,6 +161,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ProductForm.cpp" />
+    <ClCompile Include="ProductSearchForm.cpp" />
     <ClCompile Include="SalesApp.cpp" />
     <ClCompile Include="SalesMainForm.cpp" />
     <ClCompile Include="SalesmanForm.cpp" />
@@ -189,6 +193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProductForm.resx">
       <DependentUpon>ProductForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductSearchForm.resx">
+      <DependentUpon>ProductSearchForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SalesMainForm.resx">
       <DependentUpon>SalesMainForm.h</DependentUpon>

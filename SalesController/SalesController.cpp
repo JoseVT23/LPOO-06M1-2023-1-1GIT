@@ -88,6 +88,18 @@ void SalesController::Controller::LoadProductsData() {
     sr->Close();
 }
 
+List<Product^>^ SalesController::Controller::QueryProductsByNameOrDescription(String^ value)
+{
+    LoadProductsData();
+    List<Product^> ^ newProductList = gcnew List<Product^>();
+    for (int i = 0; i < productList->Count; i++) {
+        if (productList[i]->Name->Contains(value) || 
+            productList[i]->Description->Contains(value))
+            newProductList->Add(productList[i]);
+    }
+    return newProductList;
+}
+
 List<Product^>^ SalesController::Controller::QueryAllProducts()
 {
     LoadProductsData();

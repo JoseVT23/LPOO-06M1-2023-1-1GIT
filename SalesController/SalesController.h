@@ -27,6 +27,7 @@ namespace SalesController {
 			static Product^ QueryProductById(int productId);
 			static void PersistProducts();
 			static void LoadProductsData();
+			static List<Product^>^ QueryProductsByNameOrDescription(String^);
 			
 			//Métodos CRUD de Customer
 			static int AddCustomer(Customer^);
@@ -61,5 +62,7 @@ namespace SalesController {
 
 			//Autenticación de usuario
 			static Employee^ Login(String ^username, String^ password);
+
+
 	};
 }
