@@ -8,6 +8,7 @@
 
 using  namespace System;
 namespace SalesModel {
+    [Serializable]
     public ref class Customer : public Person {
     public:
         int CustomerPoints;

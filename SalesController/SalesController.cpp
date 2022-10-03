@@ -207,10 +207,38 @@ Customer^ SalesController::Controller::QueryCustomerById(int customerId) {
     return nullptr;
 }
 
+void SalesController::Controller::PersistSalesmen() {
+    //En formato de archivo binario
+    Stream^ stream = File::Open("Salesmen.bin", FileMode::Create);
+    BinaryFormatter^ bFormatter = gcnew BinaryFormatter();
+    bFormatter->Serialize(stream, salesmanList);
+    stream->Close();
+}
+
+void SalesController::Controller::LoadSalesmenData() {
+    salesmanList = gcnew List<Salesman^>();
+    //Lectura desde un archivo binario
+    Stream^ sr=nullptr;
+    try {
+        sr = File::Open("Salesmen.bin", FileMode::Open);
+        BinaryFormatter^ bFormatter = gcnew BinaryFormatter();
+        salesmanList = (List<Salesman^>^)bFormatter->Deserialize(sr);
+    }
+    catch (FileNotFoundException^ ex) {
+    }
+    catch (Exception^ ex) {
+    }
+    finally {
+        if (sr != nullptr ) sr->Close();
+    }
+    
+}
+
 int SalesController::Controller::AddSalesman(Salesman^ salesman)
 {
     salesman->Status = 'A';
     salesmanList->Add(salesman);
+    PersistSalesmen();
     return 1;
 }
 
@@ -220,6 +248,7 @@ int SalesController::Controller::UpdateSalesman(Salesman^ salesman)
         if (salesman->Id == salesmanList[i]->Id) {
             salesman->Status = 'A';
             salesmanList[i] = salesman;
+            PersistSalesmen();
             return 1;
         }
     return 0;
@@ -231,6 +260,7 @@ int SalesController::Controller::DeleteSalesman(int salesmanId)
         if (salesmanId == salesmanList[i]->Id) {
             //salesmanList->RemoveAt(i);
             salesmanList[i]->Status = 'I';
+            PersistSalesmen();
             return 1;
         }
     return 0;
@@ -238,6 +268,7 @@ int SalesController::Controller::DeleteSalesman(int salesmanId)
 
 List<Salesman^>^ SalesController::Controller::QueryAllSalesmen()
 {
+    LoadSalesmenData();
     List<Salesman^>^ activeSalesmanList = gcnew List<Salesman^>();
     for (int i = 0; i < salesmanList->Count; i++) {
         if (salesmanList[i]->Status == 'A') {

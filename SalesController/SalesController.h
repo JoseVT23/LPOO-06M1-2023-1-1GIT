@@ -45,6 +45,9 @@ namespace SalesController {
 			static Salesman^ QuerySalesmanById(int salesmanId);
 			static List<Salesman^>^ QueryAllSalesmen();
 			static List<String^>^ QueryAllStores();
+			static void PersistSalesmen();
+			static void LoadSalesmenData();
+
 
 			//Métodos CRUD de StoreManager
 			static int AddStoreManager(StoreManager^);
