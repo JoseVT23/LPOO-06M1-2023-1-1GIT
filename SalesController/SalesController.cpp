@@ -124,16 +124,13 @@ Product^ SalesController::Controller::QueryProductById(int productId)
 Employee^ SalesController::Controller::Login(String^ username, String^ password)
 {
     Employee^ employee;
-    if (username == "jbaldeon" && password == "password") {
-        employee = gcnew Employee();
-        employee->Id = 1;
-        employee->Name = "Johan";
-        employee->Email = "johan.baldeon@pucp.edu.pe";
-        employee->Address = "Elm Street 666";
-        employee->DocNumber = "66666666";
-        employee->PhoneNumber = "999999999";
-        employee->Salary = 4500;
-        employee->Username = "jbaldeon";
+    LoadSalesmenData();
+    for (int i = 0; i < salesmanList->Count; i++) {
+        if (username == salesmanList[i]->Username &&
+            password == salesmanList[i]->Password) {
+            employee = salesmanList[i];
+            return employee;
+        }
     }
     return employee;
 }

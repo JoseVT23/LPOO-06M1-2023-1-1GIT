@@ -17,13 +17,15 @@ namespace SalesApp {
 	/// </summary>
 	public ref class ProductSearchForm : public System::Windows::Forms::Form
 	{
+		Form^ refForm;
 	public:
-		ProductSearchForm(void)
+		ProductSearchForm(Form^ form)
 		{
 			InitializeComponent();
 			//
 			//TODO: agregar código de constructor aquí
 			//
+			refForm = form;
 		}
 
 	protected:
@@ -143,6 +145,7 @@ namespace SalesApp {
 			this->dgvProducts->Name = L"dgvProducts";
 			this->dgvProducts->Size = System::Drawing::Size(373, 150);
 			this->dgvProducts->TabIndex = 6;
+			this->dgvProducts->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &ProductSearchForm::dgvProducts_CellClick);
 			// 
 			// Id
 			// 
@@ -217,5 +220,7 @@ namespace SalesApp {
 		}
 
 	}
+private: System::Void dgvProducts_CellClick(System::Object^ sender,
+	System::Windows::Forms::DataGridViewCellEventArgs^ e);
 };
 }
