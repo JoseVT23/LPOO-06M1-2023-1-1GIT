@@ -16,5 +16,7 @@ namespace SalesModel {
         int Stock;
         char Status;
         array <Byte>^ Photo;
+        Product() {}
+        Product(const Product^& copier);
     };
 }

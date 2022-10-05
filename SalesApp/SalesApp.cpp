@@ -11,20 +11,24 @@ int main(array<System::String ^> ^args){
     Application::EnableVisualStyles();
     Application::SetCompatibleTextRenderingDefault(false);
     //SalesApp is your project name
+    
     SalesApp::SalesMainForm form;
     Application::Run(% form);
+    
     /*
     Product^ p1 = gcnew Product();
     p1->Id = 1;
     p1->Name = "Jabón Requesona";
     p1->Description = "Jabón de tocador que deja bien limpio.";
     p1->Price = 2.5;
-
+ 
     Product^ p2 = gcnew Product();
     p2->Id = 2;
     p2->Name = "Jabón Cayman";    
     p2->Description = "Jabón de tocador que deja bien limpio y con fragancia a flores.";
     p2->Price = 4.5;
+
+    Product^ p3 = gcnew Product(p1);
     
     Customer^ c1 = gcnew Natural();
     // Natural^ n1 = gcnew Customer(); //Está mal
@@ -35,7 +39,7 @@ int main(array<System::String ^> ^args){
     c1->Email = "esteban.quito@gmail.com";
     c1->PhoneNumber = "969696969";
     c1->CustomerPoints = 0;
-    ((Natural^)c1)->Gender = "Masculino";
+    ((Natural^)c1)->Gender = 'M';
 
     Salesman^ s1 = gcnew Salesman();
     s1->Id = 1;
@@ -65,7 +69,7 @@ int main(array<System::String ^> ^args){
                                       sale1->SaleDetails[0]->UnitPrice;
     sale1->SaleDetails->Add(gcnew SaleDetail());
     sale1->SaleDetails[1]->Id = 2;
-    sale1->SaleDetails[1]->Product = p2;
+    sale1->SaleDetails[1]->Product = p3;
     sale1->SaleDetails[1]->Quantity = 4;
     sale1->SaleDetails[1]->UnitPrice = sale1->SaleDetails[1]->Product->Price * 0.85;
     sale1->SaleDetails[1]->SubTotal = sale1->SaleDetails[1]->Quantity *
