@@ -138,16 +138,7 @@ namespace SalesApp {
 
 		}
 #pragma endregion
-	private: System::Void btnOK_Click(System::Object^ sender, System::EventArgs^ e) {
-		Employee^ emp = Controller::Login(txtUsername->Text, txtPassword->Text);
-		if (emp != nullptr) {
-			MessageBox::Show("Bienvenido " + emp->Name);
-			this->Close();
-		}
-		else {
-			MessageBox::Show("Usuario y contraseña incorrectos.");
-		}
-	}
+	private: System::Void btnOK_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void btnCancel_Click(System::Object^ sender, System::EventArgs^ e) {
 	Application::Exit();
 }

@@ -9,6 +9,7 @@
 using  namespace System;
 
 namespace SalesModel {
+	[Serializable]
     public ref class Natural : public Customer {
 	public:
 		property String^ LastName;

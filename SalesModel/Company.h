@@ -8,6 +8,7 @@
 
 using  namespace System;
 namespace SalesModel {
+	[Serializable]
     public ref class Company : public Customer {
 	public:
 		property String^ WebPage;

@@ -16,6 +16,7 @@ namespace SalesController {
 			static List <Salesman^>^ salesmanList = gcnew List<Salesman^>(); // Lista de vendedores
 			static List <StoreManager^>^ storeManagerList = gcnew List<StoreManager^>(); // Lista de gerentes de tienda
 			static List <Supervisor^>^ supervisorList = gcnew List<Supervisor^>(); // Lista de supervisores de tienda
+			static List <Sale^>^ salesList = gcnew List<Sale^>(); // Lista de ventas registradas
 		public:
 		/* Static se usa definir miembros que se pueden invocar
 		sin necesidad de contar con una instancia de la clase. */
@@ -37,6 +38,9 @@ namespace SalesController {
 			static List<Natural^>^ QueryAllNaturals();
 			static List<Company^>^ QueryAllCompanies();
 			static Customer^ QueryCustomerById(int customerId);
+			static Customer^ QueryCustomerByDNI(String^ dni);
+			static void PersistCustomers();
+			static void LoadCustomersData();
 
 			//Métodos CRUD de Salesman
 			static int AddSalesman(Salesman^);
@@ -66,6 +70,12 @@ namespace SalesController {
 			//Autenticación de usuario
 			static Employee^ Login(String ^username, String^ password);
 
+			//Registro de venta
+			static void RegisterSale(Sale^);
+			static int QueryLastSaleId();
+			//static List<Sale^> QueryAllSales();;
+			static void PersistSales();
+			static void LoadSalesData();
 
 	};
 }

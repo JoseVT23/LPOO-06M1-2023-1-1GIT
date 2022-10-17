@@ -15,8 +15,9 @@ namespace SalesApp {
 	/// </summary>
 	public ref class CustomerForm : public System::Windows::Forms::Form
 	{
-	private:
-
+	public:
+		property char UseType;
+		property Form^ RefSaleForm;
 	public:
 		CustomerForm(void)
 		{
@@ -24,6 +25,8 @@ namespace SalesApp {
 			//
 			//TODO: agregar código de constructor aquí
 			//
+			//Por defefcto el UseType es 'M'
+			UseType = 'M';
 		}
 
 	protected:
@@ -960,33 +963,8 @@ private: System::Void btnUpdatePerson_Click(System::Object^ sender, System::Even
 	Controller::UpdateCustomer(p);
 	RefreshPersonsDGV();
 }
-private: System::Void dgvPersons_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-	if (dgvPersons->CurrentCell != nullptr &&
-		dgvPersons->CurrentCell->Value != nullptr &&
-		dgvPersons->CurrentCell->Value->ToString() != "") {
-		int selectedrowindex = dgvPersons->SelectedCells[0]->RowIndex;
-		DataGridViewRow^ selectedRow = dgvPersons->Rows[selectedrowindex];
-		String^ a = selectedRow->Cells[0]->Value->ToString();
+private: System::Void dgvPersons_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e);
 
-		int personId = Int32::Parse(a);
-		Customer^ customer = Controller::QueryCustomerById(personId);
-		//MessageBox::Show(customer->ToString()); //Polimorfismo
-		if (customer != nullptr && customer->GetType() == Natural::typeid) {
-			txtPersonId->Text = "" + customer->Id;
-			rbtnMasc->Checked = dynamic_cast<Natural^>(customer)->Gender == 'M';
-			rbtnFem->Checked = dynamic_cast<Natural^>(customer)->Gender == 'F';
-			txtFirstName->Text = dynamic_cast<Natural^>(customer)->Name;
-			txtLastName->Text = dynamic_cast<Natural^>(customer)->LastName;
-			txtDNI->Text = dynamic_cast<Natural^>(customer)->DocNumber;
-			txtEmail->Text = dynamic_cast<Natural^>(customer)->Email;
-			txtAddress->Text = customer->Address;
-			txtPhoneNumber->Text = customer->PhoneNumber;
-			dtpBirthday->Value = DateTime::Parse(dynamic_cast<Natural^>(customer)->Birthday);
-			txtPersonPoints->Text = "" + customer->CustomerPoints;
-		}
-	}
-
-}
 private: System::Void btnDeletePerson_Click(System::Object^ sender, System::EventArgs^ e) {
 	int personId = -1;
 	try {
@@ -1047,32 +1025,7 @@ private: System::Void btnAddCompany_Click(System::Object^ sender, System::EventA
 	RefreshCompaniesDGV();
 	ClearControls();
 }
-private: System::Void dgvCompanies_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-	if (dgvCompanies->CurrentCell != nullptr &&
-		dgvCompanies->CurrentCell->Value != nullptr &&
-		dgvCompanies->CurrentCell->Value->ToString() != "") {
-		int selectedrowindex = dgvCompanies->SelectedCells[0]->RowIndex;
-		DataGridViewRow^ selectedRow = dgvCompanies->Rows[selectedrowindex];
-		String^ a = selectedRow->Cells[0]->Value->ToString();
-
-		int personId = Int32::Parse(a);
-		Customer^ customer = Controller::QueryCustomerById(personId);
-		//MessageBox::Show(customer->ToString());
-		if (customer->GetType() == Company::typeid) {
-			txtCompanyId->Text = "" + customer->Id;
-			txtCompanyName->Text = dynamic_cast<Company^>(customer)->Name;
-			txtWebPage->Text = dynamic_cast<Company^>(customer)->WebPage;
-			txtRUC->Text = dynamic_cast<Company^>(customer)->DocNumber;
-			//txtLegalDepartment->Text = dynamic_cast<Company^>(customer)->LegalDepartment;
-			txtCompanyAddress->Text = customer->Address;
-			txtCompanyPhoneNumber->Text = customer->PhoneNumber;
-			txtCompanyEmail->Text = customer->Email;
-			txtCompanyPoints->Text = "" + customer->CustomerPoints;
-			txtAgent->Text = dynamic_cast<Company^>(customer)->Agent;
-			//dtpCreationDate->Value = DateTime::Parse(customer->Birthday);
-		}
-	}
-}
+private: System::Void dgvCompanies_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e);
 
 private: System::Void btnUpdateCompany_Click(System::Object^ sender, System::EventArgs^ e) {
 	Company^ p = gcnew Company();

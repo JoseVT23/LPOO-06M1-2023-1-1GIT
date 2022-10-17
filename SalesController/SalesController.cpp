@@ -135,10 +135,56 @@ Employee^ SalesController::Controller::Login(String^ username, String^ password)
     return employee;
 }
 
+void SalesController::Controller::RegisterSale(Sale^ sale)
+{
+    salesList->Add(sale);
+    PersistSales();
+}
+
+int SalesController::Controller::QueryLastSaleId()
+{
+    LoadSalesData();
+    int lastSaleId = 0;
+    for (int i = 0; i < salesList->Count; i++) {
+        if (salesList[i]->Id > lastSaleId)
+            lastSaleId = salesList[i]->Id;
+    }
+    return lastSaleId;
+}
+
+void SalesController::Controller::PersistSales()
+{
+    //En formato de archivo binario
+    Stream^ stream = File::Open("Sales.bin", FileMode::Create);
+    BinaryFormatter^ bFormatter = gcnew BinaryFormatter();
+    bFormatter->Serialize(stream, salesList);
+    stream->Close();
+}
+
+void SalesController::Controller::LoadSalesData()
+{
+    salesList = gcnew List<Sale^>();
+    //Lectura desde un archivo binario
+    Stream^ sr = nullptr;
+    try {
+        sr = File::Open("Sales.bin", FileMode::Open);
+        BinaryFormatter^ bFormatter = gcnew BinaryFormatter();
+        salesList = (List<Sale^>^)bFormatter->Deserialize(sr);
+    }
+    catch (FileNotFoundException^ ex) {
+    }
+    catch (Exception^ ex) {
+    }
+    finally {
+        if (sr != nullptr) sr->Close();
+    }
+}
+
 int SalesController::Controller::AddCustomer(Customer^ customer)
 {   
     customer->Status = 'A';
     customerList->Add(customer);
+    PersistCustomers();
     return 1;
 }
 
@@ -148,6 +194,7 @@ int SalesController::Controller::UpdateCustomer(Customer^ customer)
         if (customer->Id == customerList[i]->Id) {
             customer->Status = 'A';
             customerList[i] = customer;
+            PersistCustomers();
             return 1;
         }
     return 0;
@@ -159,12 +206,14 @@ int SalesController::Controller::DeleteCustomer(int customerId)
         if (customerId == customerList[i]->Id) {
             customerList[i]->Status = 'I';
             //customerList->RemoveAt(i);
+            PersistCustomers();
             return 1;
         }
     return 0;
 }
 
 List<Customer^>^ SalesController::Controller::QueryAllCustomers() {
+    LoadCustomersData();
     List<Customer^>^ activeCustomerList = gcnew List<Customer^>();
     for (int i = 0; i < customerList->Count; i++) {
         if (customerList[i]->Status == 'A') {
@@ -176,6 +225,7 @@ List<Customer^>^ SalesController::Controller::QueryAllCustomers() {
 
 List<Natural^>^ SalesController::Controller::QueryAllNaturals()
 {
+    LoadCustomersData();
     List<Natural^>^ activeNaturalList = gcnew List<Natural^>();
     for (int i = 0; i < customerList->Count; i++) {
         if (customerList[i]->Status == 'A' && customerList[i]->GetType() == Natural::typeid) {
@@ -187,6 +237,7 @@ List<Natural^>^ SalesController::Controller::QueryAllNaturals()
 
 List<Company^>^ SalesController::Controller::QueryAllCompanies()
 {
+    LoadCustomersData();
     List<Company^>^ activeCompanyList = gcnew List<Company^>();
     for (int i = 0; i < customerList->Count; i++) {
         if (customerList[i]->Status == 'A' && customerList[i]->GetType() == Company::typeid) {
@@ -197,11 +248,51 @@ List<Company^>^ SalesController::Controller::QueryAllCompanies()
 }
 
 Customer^ SalesController::Controller::QueryCustomerById(int customerId) {
+    LoadCustomersData();
     for (int i = 0; i < customerList->Count; i++)
         if (customerId == customerList[i]->Id) {
             return customerList[i];
         }
     return nullptr;
+}
+
+Customer^ SalesController::Controller::QueryCustomerByDNI(String^ dni)
+{
+    LoadCustomersData();
+    for (int i = 0; i < customerList->Count; i++)
+        if (dni == customerList[i]->DocNumber) {
+            return customerList[i];
+        }
+    return nullptr;
+}
+
+void SalesController::Controller::PersistCustomers()
+{
+    //En formato de archivo binario
+    Stream^ stream = File::Open("Customers.bin", FileMode::Create);
+    BinaryFormatter^ bFormatter = gcnew BinaryFormatter();
+    bFormatter->Serialize(stream, customerList);
+    stream->Close();
+
+}
+
+void SalesController::Controller::LoadCustomersData()
+{
+    customerList = gcnew List<Customer^>();
+    //Lectura desde un archivo binario
+    Stream^ sr = nullptr;
+    try {
+        sr = File::Open("Customers.bin", FileMode::Open);
+        BinaryFormatter^ bFormatter = gcnew BinaryFormatter();
+        customerList = (List<Customer^>^)bFormatter->Deserialize(sr);
+    }
+    catch (FileNotFoundException^ ex) {
+    }
+    catch (Exception^ ex) {
+    }
+    finally {
+        if (sr != nullptr) sr->Close();
+    }
 }
 
 void SalesController::Controller::PersistSalesmen() {

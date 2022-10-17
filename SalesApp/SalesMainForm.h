@@ -14,6 +14,7 @@ namespace SalesApp {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace SalesModel;
 
 	/// <summary>
 	/// Resumen de SalesMainForm
@@ -21,6 +22,8 @@ namespace SalesApp {
 	public ref class SalesMainForm : public System::Windows::Forms::Form
 	{
 	public:
+		static Salesman^ salesman;
+
 		SalesMainForm(void)
 		{
 			InitializeComponent();

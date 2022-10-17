@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ProductSearchForm.h"
+#include "CustomerForm.h"
+#include "Resource.h"
 
 namespace SalesApp {
 
@@ -16,6 +18,8 @@ namespace SalesApp {
 	/// </summary>
 	public ref class SaleForm : public System::Windows::Forms::Form
 	{
+	private:
+		Customer^ customer;
 	public:
 		SaleForm(void)
 		{
@@ -57,6 +61,8 @@ namespace SalesApp {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ subTotal;
 	private: System::Windows::Forms::Label^ label5;
 	private: System::Windows::Forms::TextBox^ txtDate;
+	private: System::Windows::Forms::Button^ btnAddCustomer;
+	private: System::Windows::Forms::Label^ lblCustomerData;
 
 	private:
 		/// <summary>
@@ -91,6 +97,8 @@ namespace SalesApp {
 			this->btnRegisterSale = (gcnew System::Windows::Forms::Button());
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->txtDate = (gcnew System::Windows::Forms::TextBox());
+			this->btnAddCustomer = (gcnew System::Windows::Forms::Button());
+			this->lblCustomerData = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvDetails))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -107,21 +115,24 @@ namespace SalesApp {
 			// 
 			this->txtCustomer->Location = System::Drawing::Point(90, 46);
 			this->txtCustomer->Name = L"txtCustomer";
-			this->txtCustomer->Size = System::Drawing::Size(315, 20);
+			this->txtCustomer->Size = System::Drawing::Size(238, 20);
 			this->txtCustomer->TabIndex = 1;
+			this->txtCustomer->Text = L"Digite DNI";
+			this->txtCustomer->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
 			// btnSearchCustomer
 			// 
-			this->btnSearchCustomer->Location = System::Drawing::Point(423, 44);
+			this->btnSearchCustomer->Location = System::Drawing::Point(337, 45);
 			this->btnSearchCustomer->Name = L"btnSearchCustomer";
 			this->btnSearchCustomer->Size = System::Drawing::Size(75, 23);
 			this->btnSearchCustomer->TabIndex = 2;
 			this->btnSearchCustomer->Text = L"Buscar";
 			this->btnSearchCustomer->UseVisualStyleBackColor = true;
+			this->btnSearchCustomer->Click += gcnew System::EventHandler(this, &SaleForm::btnSearchCustomer_Click);
 			// 
 			// btnAddProduct
 			// 
-			this->btnAddProduct->Location = System::Drawing::Point(105, 88);
+			this->btnAddProduct->Location = System::Drawing::Point(105, 104);
 			this->btnAddProduct->Name = L"btnAddProduct";
 			this->btnAddProduct->Size = System::Drawing::Size(139, 23);
 			this->btnAddProduct->TabIndex = 3;
@@ -131,7 +142,7 @@ namespace SalesApp {
 			// 
 			// btnDeleteProduct
 			// 
-			this->btnDeleteProduct->Location = System::Drawing::Point(290, 88);
+			this->btnDeleteProduct->Location = System::Drawing::Point(290, 104);
 			this->btnDeleteProduct->Name = L"btnDeleteProduct";
 			this->btnDeleteProduct->Size = System::Drawing::Size(151, 23);
 			this->btnDeleteProduct->TabIndex = 4;
@@ -145,9 +156,9 @@ namespace SalesApp {
 				this->productId,
 					this->productName, this->productPrice, this->quantity, this->subTotal
 			});
-			this->dgvDetails->Location = System::Drawing::Point(12, 117);
+			this->dgvDetails->Location = System::Drawing::Point(12, 133);
 			this->dgvDetails->Name = L"dgvDetails";
-			this->dgvDetails->Size = System::Drawing::Size(517, 142);
+			this->dgvDetails->Size = System::Drawing::Size(517, 126);
 			this->dgvDetails->TabIndex = 5;
 			this->dgvDetails->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &SaleForm::dgvDetails_CellValueChanged);
 			// 
@@ -214,6 +225,7 @@ namespace SalesApp {
 			this->txtTotal->ReadOnly = true;
 			this->txtTotal->Size = System::Drawing::Size(84, 20);
 			this->txtTotal->TabIndex = 9;
+			this->txtTotal->Text = L"0";
 			// 
 			// txtSubtotal
 			// 
@@ -240,6 +252,7 @@ namespace SalesApp {
 			this->btnRegisterSale->TabIndex = 12;
 			this->btnRegisterSale->Text = L"Registrar venta";
 			this->btnRegisterSale->UseVisualStyleBackColor = true;
+			this->btnRegisterSale->Click += gcnew System::EventHandler(this, &SaleForm::btnRegisterSale_Click);
 			// 
 			// label5
 			// 
@@ -258,11 +271,32 @@ namespace SalesApp {
 			this->txtDate->Size = System::Drawing::Size(154, 20);
 			this->txtDate->TabIndex = 14;
 			// 
+			// btnAddCustomer
+			// 
+			this->btnAddCustomer->Location = System::Drawing::Point(428, 46);
+			this->btnAddCustomer->Name = L"btnAddCustomer";
+			this->btnAddCustomer->Size = System::Drawing::Size(84, 23);
+			this->btnAddCustomer->TabIndex = 15;
+			this->btnAddCustomer->Text = L"+ Cliente";
+			this->btnAddCustomer->UseVisualStyleBackColor = true;
+			this->btnAddCustomer->Click += gcnew System::EventHandler(this, &SaleForm::btnAddCustomer_Click);
+			// 
+			// lblCustomerData
+			// 
+			this->lblCustomerData->Location = System::Drawing::Point(90, 75);
+			this->lblCustomerData->Name = L"lblCustomerData";
+			this->lblCustomerData->Size = System::Drawing::Size(238, 23);
+			this->lblCustomerData->TabIndex = 16;
+			this->lblCustomerData->Text = L"Sin cliente";
+			this->lblCustomerData->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			// 
 			// SaleForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(541, 361);
+			this->Controls->Add(this->lblCustomerData);
+			this->Controls->Add(this->btnAddCustomer);
 			this->Controls->Add(this->txtDate);
 			this->Controls->Add(this->label5);
 			this->Controls->Add(this->btnRegisterSale);
@@ -280,6 +314,7 @@ namespace SalesApp {
 			this->Controls->Add(this->label1);
 			this->Name = L"SaleForm";
 			this->Text = L"Venta realizada por";
+			this->Load += gcnew System::EventHandler(this, &SaleForm::SaleForm_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvDetails))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -298,18 +333,56 @@ namespace SalesApp {
 				"1",
 				Convert::ToString(p->Price)
 			});
+		RefreshTotalAmounts();
 	}
+
+		  Void SetCustomer(Customer^ cust) {
+			  this->customer = cust;
+			  txtCustomer->Text = cust->DocNumber;
+			  lblCustomerData->Text = this->customer->DocNumber + " - " +
+					cust->Name + " " + ((Natural^)cust)->LastName;
+		  }
+
+	private: Void RefreshTotalAmounts() {
+		double total = 0;
+		for (int i = 0; i < dgvDetails->RowCount - 1; i++)
+			total += Double::Parse(dgvDetails->Rows[i]->Cells[4]->Value->ToString());
+		txtSubtotal->Text = "" + (total * (1-IGV));
+		txtTax->Text = "" + (total * IGV);
+		txtTotal->Text = "" + total;
+	}
+
 private: System::Void dgvDetails_CellValueChanged(System::Object^ sender, 
 		System::Windows::Forms::DataGridViewCellEventArgs^ e) {
 	if (dgvDetails->Columns[e->ColumnIndex]->Name == "quantity") {
 		dgvDetails->Rows[e->RowIndex]->Cells[4]->Value =
 			Int32::Parse(dgvDetails->CurrentCell->Value->ToString())*
 			Double::Parse(dgvDetails->Rows[e->RowIndex]->Cells[2]->Value->ToString());
-		double total = 0;
-		for (int i = 0; i < dgvDetails->RowCount - 1; i++)
-			total += Double::Parse(dgvDetails->Rows[i]->Cells[4]->Value->ToString());
-		txtTotal->Text = "" + total;
+		RefreshTotalAmounts();
 	}
 }
+private: System::Void SaleForm_Load(System::Object^ sender, System::EventArgs^ e) {
+	txtDate->Text = DateTime::Now.ToString("dd/MM/yyyy");
+}
+private: System::Void btnSearchCustomer_Click(System::Object^ sender, System::EventArgs^ e) {
+	customer = Controller::QueryCustomerByDNI(txtCustomer->Text);
+	if (customer != nullptr) {
+		if (customer->GetType() == Natural::typeid)
+			lblCustomerData->Text = customer->DocNumber + " - " + customer->Name +
+								" " + ((Natural^)customer)->LastName;
+		else 
+			lblCustomerData->Text = customer->DocNumber + " - " + customer->Name;
+	}
+	else {
+		MessageBox::Show("Cliente no encontrado!");
+	}
+}
+private: System::Void btnAddCustomer_Click(System::Object^ sender, System::EventArgs^ e) {
+	CustomerForm^ customerForm = gcnew CustomerForm();
+	customerForm->UseType = 'S';
+	customerForm->RefSaleForm = this;
+	customerForm->ShowDialog();
+}
+private: System::Void btnRegisterSale_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }
