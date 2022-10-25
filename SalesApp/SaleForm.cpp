@@ -2,6 +2,12 @@
 #include "SaleForm.h"
 #include "SalesMainForm.h"
 
+System::Void SalesApp::SaleForm::SaleForm_Load(System::Object^ sender, System::EventArgs^ e)
+{
+	txtDate->Text = DateTime::Now.ToString("dd/MM/yyyy");
+	this->Text = "Venta realizada por " + SalesMainForm::salesman->Name + " " + SalesMainForm::salesman->LastName;
+}
+
 System::Void SalesApp::SaleForm::btnRegisterSale_Click(System::Object^ sender, System::EventArgs^ e)
 {
 	if (lblCustomerData->Text == "Sin cliente") {

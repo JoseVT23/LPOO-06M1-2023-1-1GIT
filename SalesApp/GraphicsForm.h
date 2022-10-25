@@ -82,7 +82,7 @@ namespace SalesApp {
 			this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->pictureBox1->Location = System::Drawing::Point(0, 0);
 			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(867, 518);
+			this->pictureBox1->Size = System::Drawing::Size(718, 322);
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
 			this->pictureBox1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &GraphicsForm::pictureBox1_Paint);
@@ -96,10 +96,10 @@ namespace SalesApp {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(867, 518);
+			this->ClientSize = System::Drawing::Size(718, 322);
 			this->Controls->Add(this->pictureBox1);
 			this->Name = L"GraphicsForm";
-			this->Text = L"GraphicsForm";
+			this->Text = L"Ventana de Gráficos";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
 

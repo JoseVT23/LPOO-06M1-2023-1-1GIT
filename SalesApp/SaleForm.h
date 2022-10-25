@@ -361,9 +361,8 @@ private: System::Void dgvDetails_CellValueChanged(System::Object^ sender,
 		RefreshTotalAmounts();
 	}
 }
-private: System::Void SaleForm_Load(System::Object^ sender, System::EventArgs^ e) {
-	txtDate->Text = DateTime::Now.ToString("dd/MM/yyyy");
-}
+private: System::Void SaleForm_Load(System::Object^ sender, System::EventArgs^ e);
+
 private: System::Void btnSearchCustomer_Click(System::Object^ sender, System::EventArgs^ e) {
 	customer = Controller::QueryCustomerByDNI(txtCustomer->Text);
 	if (customer != nullptr) {
