@@ -152,6 +152,12 @@ int SalesController::Controller::QueryLastSaleId()
     return lastSaleId;
 }
 
+List<Sale^>^ SalesController::Controller::QueryAllSales()
+{
+    LoadSalesData();
+    return salesList;
+}
+
 void SalesController::Controller::PersistSales()
 {
     //En formato de archivo binario

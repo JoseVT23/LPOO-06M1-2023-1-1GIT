@@ -5,6 +5,8 @@
 #include "SalesmanForm.h"
 #include "ProductSearchForm.h"
 #include "SaleForm.h"
+#include "SalesGraphicsForm.h"
+#include "GraphicsForm.h"
 
 namespace SalesApp {
 
@@ -55,6 +57,8 @@ namespace SalesApp {
 	private: System::Windows::Forms::ToolStripMenuItem^ realizarVentaToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ clientesToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ vendedoresToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ ventasToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ gráficosToolStripMenuItem;
 
 
 
@@ -82,7 +86,9 @@ namespace SalesApp {
 			this->clientesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->vendedoresToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->reporteToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->ventasToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->ayudaToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->gráficosToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -122,7 +128,7 @@ namespace SalesApp {
 			// realizarVentaToolStripMenuItem
 			// 
 			this->realizarVentaToolStripMenuItem->Name = L"realizarVentaToolStripMenuItem";
-			this->realizarVentaToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->realizarVentaToolStripMenuItem->Size = System::Drawing::Size(146, 22);
 			this->realizarVentaToolStripMenuItem->Text = L"Realizar venta";
 			this->realizarVentaToolStripMenuItem->Click += gcnew System::EventHandler(this, &SalesMainForm::realizarVentaToolStripMenuItem_Click);
 			// 
@@ -159,15 +165,33 @@ namespace SalesApp {
 			// 
 			// reporteToolStripMenuItem
 			// 
+			this->reporteToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				this->ventasToolStripMenuItem,
+					this->gráficosToolStripMenuItem
+			});
 			this->reporteToolStripMenuItem->Name = L"reporteToolStripMenuItem";
 			this->reporteToolStripMenuItem->Size = System::Drawing::Size(60, 20);
 			this->reporteToolStripMenuItem->Text = L"Reporte";
+			// 
+			// ventasToolStripMenuItem
+			// 
+			this->ventasToolStripMenuItem->Name = L"ventasToolStripMenuItem";
+			this->ventasToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->ventasToolStripMenuItem->Text = L"Ventas";
+			this->ventasToolStripMenuItem->Click += gcnew System::EventHandler(this, &SalesMainForm::ventasToolStripMenuItem_Click);
 			// 
 			// ayudaToolStripMenuItem
 			// 
 			this->ayudaToolStripMenuItem->Name = L"ayudaToolStripMenuItem";
 			this->ayudaToolStripMenuItem->Size = System::Drawing::Size(53, 20);
 			this->ayudaToolStripMenuItem->Text = L"Ayuda";
+			// 
+			// gráficosToolStripMenuItem
+			// 
+			this->gráficosToolStripMenuItem->Name = L"gráficosToolStripMenuItem";
+			this->gráficosToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->gráficosToolStripMenuItem->Text = L"Gráficos";
+			this->gráficosToolStripMenuItem->Click += gcnew System::EventHandler(this, &SalesMainForm::gráficosToolStripMenuItem_Click);
 			// 
 			// SalesMainForm
 			// 
@@ -220,6 +244,16 @@ private: System::Void realizarVentaToolStripMenuItem_Click(System::Object^ sende
 	SaleForm^ saleForm = gcnew SaleForm();
 	saleForm->MdiParent = this;
 	saleForm->Show();
+}
+private: System::Void ventasToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	SalesGraphicsForm^ salesGraphicsForm = gcnew SalesGraphicsForm();
+	salesGraphicsForm->MdiParent = this;
+	salesGraphicsForm->Show();
+}
+private: System::Void gráficosToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	GraphicsForm^ graphicsForm = gcnew GraphicsForm();
+	graphicsForm->MdiParent = this;
+	graphicsForm->Show();
 }
 };
 }

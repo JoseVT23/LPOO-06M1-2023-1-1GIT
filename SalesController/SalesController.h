@@ -73,7 +73,7 @@ namespace SalesController {
 			//Registro de venta
 			static void RegisterSale(Sale^);
 			static int QueryLastSaleId();
-			//static List<Sale^> QueryAllSales();;
+			static List<Sale^>^ QueryAllSales();
 			static void PersistSales();
 			static void LoadSalesData();
 

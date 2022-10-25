@@ -131,6 +131,9 @@
     <ClInclude Include="CustomerForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="GraphicsForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="LoginForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -145,6 +148,9 @@
     <ClInclude Include="SaleForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="SalesGraphicsForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="SalesMainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -156,6 +162,7 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="ComboBoxItem.cpp" />
     <ClCompile Include="CustomerForm.cpp" />
+    <ClCompile Include="GraphicsForm.cpp" />
     <ClCompile Include="LoginForm.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -167,6 +174,7 @@
     <ClCompile Include="ProductSearchForm.cpp" />
     <ClCompile Include="SaleForm.cpp" />
     <ClCompile Include="SalesApp.cpp" />
+    <ClCompile Include="SalesGraphicsForm.cpp" />
     <ClCompile Include="SalesMainForm.cpp" />
     <ClCompile Include="SalesmanForm.cpp" />
   </ItemGroup>
@@ -178,6 +186,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +201,9 @@
     <EmbeddedResource Include="CustomerForm.resx">
       <DependentUpon>CustomerForm.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraphicsForm.resx">
+      <DependentUpon>GraphicsForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.h</DependentUpon>
     </EmbeddedResource>
@@ -203,6 +215,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SaleForm.resx">
       <DependentUpon>SaleForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SalesGraphicsForm.resx">
+      <DependentUpon>SalesGraphicsForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SalesMainForm.resx">
       <DependentUpon>SalesMainForm.h</DependentUpon>
