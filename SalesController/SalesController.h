@@ -4,6 +4,7 @@ using namespace System;
 using namespace SalesModel;
 using namespace System::Collections::Generic;
 using namespace System::IO;
+using namespace System::Data::SqlClient;
 
 namespace SalesController {
 	/* Clase Controller con las operaciones de negocio */
@@ -19,7 +20,9 @@ namespace SalesController {
 			static List <Sale^>^ salesList = gcnew List<Sale^>(); // Lista de ventas registradas
 		public:
 		/* Static se usa definir miembros que se pueden invocar
-		sin necesidad de contar con una instancia de la clase. */
+		* sin necesidad de contar con una instancia de la clase. */
+			static SqlConnection^ GetConnection();
+
 			//Métodos CRUD de Product
 			static int AddProduct(Product ^product); //Métodos estáticos o de clase
 			static int UpdateProduct(Product^ product);

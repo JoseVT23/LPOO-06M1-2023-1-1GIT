@@ -28,15 +28,42 @@ void SalesController::Controller::PersistProducts() {
     stream->Close();
 }
 
-int SalesController::Controller::AddProduct(Product^ product)
+SqlConnection^ SalesController::Controller::GetConnection()
 {
+    SqlConnection^ conn = gcnew SqlConnection();
+    String^ connStr = "Server=200.16.7.140;Database=inf237m1;User ID=inf237m1;Password=s8aX3*R27{HK,4f:";
+    conn->ConnectionString = connStr;
+    conn->Open();
+    return conn;
+}
+
+int SalesController::Controller::AddProduct(Product^ product)
+{   /*
     productList->Add(product);
     PersistProducts();
-    return 1;
+    */
+    //Paso 1: Se obtiene la conexión
+    SqlConnection^ conn = GetConnection();
+
+    //Paso 2: Se prepara la sentencia
+    SqlCommand^ comm = gcnew SqlCommand("INSERT INTO PRODUCT_JOHAN(name, description, price, stock,status)"
+        + "VALUES('" + product->Name + "','" + product->Description + "',"
+        + product->Price + "," + product->Stock + ", 'A')", conn);
+
+    //Paso 3: Se ejecuta la sentencia
+    int res = comm->ExecuteNonQuery();
+
+    //Paso 4: Se procesan los resultados (No aplica)    
+
+    //Paso 5: Se cierran los objetos de conexión
+    conn->Close();
+
+    return res;
 }
 
 int SalesController::Controller::UpdateProduct(Product^ product)
 {
+    /*
     for (int i = 0; i < productList->Count; i++)
         if (product->Id == productList[i]->Id) {
             productList[i] = product;
@@ -44,10 +71,33 @@ int SalesController::Controller::UpdateProduct(Product^ product)
             return 1;
         }
     return 0;
+    */
+    //Paso 1: Se obtiene la conexión
+    SqlConnection^ conn = GetConnection();
+
+    //Paso 2: Se prepara la sentencia
+    SqlCommand^ comm = gcnew SqlCommand("UPDATE PRODUCT_JOHAN " 
+        + "SET name = '" + product->Name + "', " 
+        + "description = '" + product->Description + "', "
+        + "price = " + product->Price + ", "
+        + "stock = " + product->Stock + ", "
+        + "status = '" + Char::ToString(product->Status) + "' "
+        //+ "photo = " + product->Photo
+        + " WHERE id = " + product->Id, conn);
+
+    //Paso 3: Se ejecuta la sentencia
+    int res = comm->ExecuteNonQuery();
+
+    //Paso 4: Se procesan los resultados (No aplica)    
+
+    //Paso 5: Se cierran los objetos de conexión
+    conn->Close();
+
+    return res;
 }
 
 int SalesController::Controller::DeleteProduct(int productId)
-{
+{   /*
     for (int i = 0; i < productList->Count; i++)
         if (productId == productList[i]->Id) {
             productList->RemoveAt(i);
@@ -55,6 +105,23 @@ int SalesController::Controller::DeleteProduct(int productId)
             return 1;
         }
     return 0;
+    */
+    //Paso 1: Se obtiene la conexión
+    SqlConnection^ conn = GetConnection();
+
+    //Paso 2: Se prepara la sentencia
+    SqlCommand^ comm = gcnew SqlCommand("UPDATE PRODUCT_JOHAN "
+        + "SET status = 'I' "
+        + "WHERE id = " + productId, conn);
+
+    //Paso 3: Se ejecuta la sentencia
+    int res = comm->ExecuteNonQuery();
+
+    //Paso 4: Se procesan los resultados (No aplica)    
+
+    //Paso 5: Se cierran los objetos de conexión
+    conn->Close();
+    return res;
 }
 
 void SalesController::Controller::LoadProductsData() {
@@ -89,7 +156,7 @@ void SalesController::Controller::LoadProductsData() {
 }
 
 List<Product^>^ SalesController::Controller::QueryProductsByNameOrDescription(String^ value)
-{
+{   /*
     LoadProductsData();
     List<Product^> ^ newProductList = gcnew List<Product^>();
     for (int i = 0; i < productList->Count; i++) {
@@ -98,10 +165,44 @@ List<Product^>^ SalesController::Controller::QueryProductsByNameOrDescription(St
             newProductList->Add(productList[i]);
     }
     return newProductList;
+    */
+    List<Product^>^ activeProductsList = gcnew List<Product^>();
+    //Paso 1: Se obtiene la conexión
+    SqlConnection^ conn = GetConnection();
+
+    //Paso 2: Se prepara la sentencia
+    SqlCommand^ comm = gcnew SqlCommand("SELECT * FROM PRODUCT_JOHAN "
+        + "WHERE name LIKE '%"+ value + "%' OR "
+        + "description LIKE '%" + value + "%'", conn);
+
+    //Paso 3: Se ejecuta la sentencia
+    SqlDataReader^ reader = comm->ExecuteReader();
+
+    //Paso 4: Se procesan los resultados
+    Product^ p;
+    while (reader->Read()) {
+        p = gcnew Product();
+        p->Id = Convert::ToInt32(reader["id"]->ToString());
+        p->Name = reader["name"]->ToString();
+        p->Description = reader["description"]->ToString();
+        p->Price = Convert::ToDouble(reader["price"]->ToString());
+        p->Stock = Convert::ToInt32(reader["stock"]->ToString());
+        if (!DBNull::Value->Equals(reader["status"]))
+            p->Status = reader["status"]->ToString()[0];
+        if (!DBNull::Value->Equals(reader["photo"]))
+            p->Photo = (array<Byte>^)reader["photo"];
+        activeProductsList->Add(p);
+    }
+
+    //Paso 5: Se cierran los objetos de conexión
+    reader->Close();
+    conn->Close();
+    return activeProductsList;
+
 }
 
 List<Product^>^ SalesController::Controller::QueryAllProducts()
-{
+{   /*
     LoadProductsData();
     List<Product^>^ activeProductsList = gcnew List<Product^>();
     for (int i = 0; i < productList->Count; i++){
@@ -110,15 +211,78 @@ List<Product^>^ SalesController::Controller::QueryAllProducts()
         }
     }
     return activeProductsList;
+    */
+    List<Product^>^ activeProductsList = gcnew List<Product^>();
+    //Paso 1: Se obtiene la conexión
+    SqlConnection^ conn = GetConnection();
+
+    //Paso 2: Se prepara la sentencia
+    SqlCommand^ comm = gcnew SqlCommand("SELECT * FROM PRODUCT_JOHAN WHERE status='A'", conn);
+
+    //Paso 3: Se ejecuta la sentencia
+    SqlDataReader ^ reader = comm->ExecuteReader();
+
+    //Paso 4: Se procesan los resultados
+    while (reader->Read()) {
+        Product^ p = gcnew Product();
+        p->Id = Convert::ToInt32(reader["id"]->ToString());
+        p->Name = reader["name"]->ToString();
+        p->Description = reader["description"]->ToString();
+        p->Price = Convert::ToDouble(reader["price"]->ToString());
+        p->Stock = Convert::ToInt32(reader["stock"]->ToString());
+        if (!DBNull::Value->Equals(reader["status"]))
+            p->Status = reader["status"]->ToString()[0];
+        if (!DBNull::Value->Equals(reader["photo"]))
+            p->Photo = (array<Byte>^)reader["photo"];
+        activeProductsList->Add(p);
+    }
+
+    //Paso 5: Se cierran los objetos de conexión
+    reader->Close();
+    conn->Close();
+
+    return activeProductsList;
 }
 
 Product^ SalesController::Controller::QueryProductById(int productId)
 {
+    /*
     for (int i = 0; i < productList->Count; i++)
         if (productId == productList[i]->Id) {
             return productList[i];
         }
     return nullptr;
+    */
+    //Paso 1: Se obtiene la conexión
+    SqlConnection^ conn = GetConnection();
+
+    //Paso 2: Se prepara la sentencia
+    SqlCommand^ comm = gcnew SqlCommand("SELECT * FROM PRODUCT_JOHAN WHERE status='A' AND id=" +  
+                                        productId, conn);
+
+    //Paso 3: Se ejecuta la sentencia
+    SqlDataReader^ reader = comm->ExecuteReader();
+
+    //Paso 4: Se procesan los resultados
+    Product^ p;
+    if (reader->Read()) {
+        p = gcnew Product();
+        p->Id = Convert::ToInt32(reader["id"]->ToString());
+        p->Name = reader["name"]->ToString();
+        p->Description = reader["description"]->ToString();
+        p->Price = Convert::ToDouble(reader["price"]->ToString());
+        p->Stock = Convert::ToInt32(reader["stock"]->ToString());
+        if (!DBNull::Value->Equals(reader["status"]))
+            p->Status = reader["status"]->ToString()[0];
+        if (!DBNull::Value->Equals(reader["photo"]))
+            p->Photo = (array<Byte>^)reader["photo"];
+    }
+
+
+    //Paso 5: Se cierran los objetos de conexión
+    reader->Close();
+    conn->Close();
+    return p;
 }
 
 Employee^ SalesController::Controller::Login(String^ username, String^ password)
