@@ -160,6 +160,7 @@ namespace SalesApp {
 			// 
 			this->txtId->Location = System::Drawing::Point(125, 39);
 			this->txtId->Name = L"txtId";
+			this->txtId->ReadOnly = true;
 			this->txtId->Size = System::Drawing::Size(131, 20);
 			this->txtId->TabIndex = 2;
 			// 
@@ -370,7 +371,7 @@ namespace SalesApp {
 
 	private: System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
 		Product^ p = gcnew Product();
-		p->Id = Int32::Parse(txtId->Text);
+		//p->Id = Int32::Parse(txtId->Text);
 		p->Name = txtName->Text;
 		p->Description = txtDescription->Text;
 		p->Price = Double::Parse(txtPrice->Text);
