@@ -24,3 +24,6 @@ SalesModel::Customer::Customer(int id, String^ name, String^ docNumber, String^ 
     this->Email = email;
     this->CustomerPoints = customerPoints;
 }
+
+
+//lab1_pd1_asd//
