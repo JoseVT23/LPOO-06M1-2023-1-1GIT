@@ -11,8 +11,9 @@ namespace SalesModel {
     [Serializable]
     public ref class Customer : public Person {
     public:
-        int CustomerPoints;
+        int CustomerPoints;  
         Customer();
         Customer(int id, String^ name, String^ docNumber, String^address, String^ phoneNumber, String^email,  int customerPoints);
     };
 }
+
